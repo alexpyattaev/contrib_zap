@@ -61,6 +61,19 @@ if [ "$SUBJECT" = "axum" ] ; then
     URL=http://127.0.0.1:3000
 fi
 
+if [ "$SUBJECT" = "tokio" ] ; then
+    cd wrk/rust/tokio && cargo build --release
+    $TSK_SRV ./target/release/hello_async &
+    PID=$!
+    URL=http://127.0.0.1:7878
+fi
+if [ "$SUBJECT" = "hyper" ] ; then
+    cd wrk/rust/hyper && cargo build --release
+    $TSK_SRV ./target/release/rust_hyper &
+    PID=$!
+    URL=http://127.0.0.1:3000
+fi
+
 if [ "$SUBJECT" = "csharp" ] ; then
     cd wrk/csharp && dotnet publish csharp.csproj -o ./out
     $TSK_SRV ./out/csharp --urls "http://127.0.0.1:5026" &

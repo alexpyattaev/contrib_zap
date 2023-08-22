@@ -8,10 +8,12 @@ fn main() {
     //Creating a massive amount of threads so we can always have one ready to go.
     let mut pool = ThreadPool::new(128);
 
-    // for stream in listener.incoming().take(2) {
     for stream in listener.incoming() {
         let stream = stream.unwrap();
+        // single-thread server
         //handle_connection(stream);
+
+        // thread pool server
         pool.execute(handle_connection, stream);
     }
 
